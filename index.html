@@ -1,30 +1,261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>浪漫 | 全天在线</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>浪漫｜个人主页</title>
+
+  <!-- 分享预览（可选） -->
+  <meta name="description" content="浪漫｜承接外包项目 / 技术服务，对接合作欢迎联系。" />
+  <meta property="og:title" content="浪漫｜个人主页" />
+  <meta property="og:description" content="承接外包项目 / 技术服务，对接合作欢迎联系。" />
+  <meta property="og:image" content="https://github.com/ovo216.png" />
+
   <style>
-    body { font-family: "Segoe UI", sans-serif; background: #fafafa; color: #333; text-align: center; padding: 40px; }
-    h1 { font-size: 2.4em; margin-bottom: 0.2em; }
-    p { font-size: 1.1em; margin: 0.5em 0; }
-    a { color: #0078ff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    hr { width: 60%; margin: 2em auto; }
+    :root{
+      --card-bg: rgba(255,255,255,.12);
+      --card-brd: rgba(255,255,255,.22);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC","Microsoft YaHei", Arial, sans-serif;
+      overflow:hidden;
+      background:#0b1020;
+    }
+
+    /* 动态渐变背景 */
+    .bg{
+      position:fixed; inset:0;
+      background:
+        radial-gradient(1200px 800px at 15% 20%, rgba(112, 86, 255,.55), transparent 60%),
+        radial-gradient(900px 700px at 80% 30%, rgba(0, 198, 255,.45), transparent 60%),
+        radial-gradient(1000px 800px at 45% 80%, rgba(255, 80, 160,.38), transparent 60%),
+        linear-gradient(180deg, #070a12 0%, #0b1020 55%, #060912 100%);
+      filter:saturate(1.1);
+    }
+    .bg::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.08), rgba(255,255,255,0), rgba(255,255,255,.08));
+      animation: spin 14s linear infinite;
+      opacity:.35;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* 粒子层 */
+    canvas#particles{
+      position:fixed; inset:0;
+      width:100%; height:100%;
+      opacity:.55;
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+
+    /* 主体布局 */
+    .wrap{
+      position:relative;
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding:28px;
+    }
+    .card{
+      width:min(720px, 100%);
+      background:var(--card-bg);
+      border:1px solid var(--card-brd);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding:28px;
+      display:grid;
+      gap:18px;
+    }
+    .top{
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .avatar{
+      width:88px; height:88px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      overflow:hidden;
+      flex: 0 0 auto;
+      background:rgba(255,255,255,.08);
+    }
+    .avatar img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    h1{
+      margin:0;
+      font-size:28px;
+      letter-spacing:.2px;
+      line-height:1.2;
+    }
+    .subtitle{
+      margin:.25rem 0 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.45;
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+    .chip{
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.85);
+      font-size:13px;
+      user-select:none;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:2px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.10);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.34);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(0, 198, 255,.35), rgba(112, 86, 255,.30));
+      border-color: rgba(255,255,255,.28);
+    }
+    .btn .icon{
+      width:18px; height:18px; display:inline-block;
+    }
+
+    .section{
+      margin-top:2px;
+      padding-top:14px;
+      border-top: 1px solid rgba(255,255,255,.16);
+      color: var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top:6px;
+      color: rgba(255,255,255,.55);
+      font-size:12px;
+    }
+    .footer a{color: rgba(255,255,255,.75); text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+
+    /* 手机优化 */
+    @media (max-width:520px){
+      .card{padding:20px}
+      .avatar{width:72px;height:72px}
+      h1{font-size:24px}
+    }
   </style>
 </head>
+
 <body>
-  <h1>Hi 👋 我是浪漫</h1>
-  <p>💫  代开会员 · 定位到账 · 承接各种外包项目 </p>
-  <hr />
-  <p>💼 简介</p>  
-  <p>⚙️ 擅长处理各类线上外包</p>  
-  <p>💰 定位 到账快 · 稳定 · 诚信第一</p>
-  <p>🌏 打破技术壁垒 颠覆行业认知</p>
-  <p>💻 售 定位 软件 可定制</p>
-  <p>🕒 全天可接 24小时在线 白人团队随时服务</p>
-  <p>📬 联系方式：<a href="https://t.me/ovo216" target="_blank">@ovo216</a></p>
-  <hr />
-  <p>© 2026 浪漫 | Powered by GitHub Pages</p>
-</body>
-</html>
+  <div class="bg" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="top">
+        <div class="avatar">
+          <!-- 头像：直接用 GitHub 头像 -->
+          <img src="https://github.com/ovo216.png" alt="浪漫 头像" />
+        </div>
+
+        <div>
+          <h1>浪漫</h1>
+          <p class="subtitle">承接外包项目 / 技术服务｜对接合作欢迎联系</p>
+          <div class="chips">
+            <span class="chip">外包承接</span>
+            <span class="chip">网站 / 自动化</span>
+            <span class="chip">长期合作</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="https://t.me/ovo216" target="_blank" rel="noopener">
+          <span class="icon" aria-hidden="true">
+            <!-- Telegram SVG -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9.04 15.53 8.7 20.1c.49 0 .7-.21.95-.46l2.28-2.19 4.72 3.45c.87.48 1.49.23 1.71-.81l3.1-14.55h0c.26-1.22-.44-1.7-1.29-1.38L1.95 9.33c-1.18.46-1.16 1.12-.2 1.42l4.56 1.42L17.2 5.3c.51-.34.98-.15.6.19L9.04 15.53Z"/>
+            </svg>
+          </span>
+          立即联系（Telegram）
+        </a>
+
+        <a class="btn" href="https://github.com/ovo216" target="_blank" rel="noopener">
+          <span class="icon" aria-hidden="true">
+            <!-- GitHub SVG -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .5C5.73.5.75 5.6.75 12c0 5.11 3.16 9.44 7.55 10.97.55.1.75-.24.75-.54 0-.27-.01-1.17-.02-2.12-3.07.68-3.72-1.34-3.72-1.34-.5-1.3-1.22-1.65-1.22-1.65-1-.7.08-.69.08-.69 1.1.08 1.68 1.16 1.68 1.16.99 1.74 2.6 1.24 3.23.95.1-.73.39-1.24.7-1.52-2.45-.29-5.03-1.25-5.03-5.57 0-1.23.42-2.23 1.12-3.01-.11-.28-.49-1.43.11-2.98 0 0 .92-.3 3.02 1.15.88-.25 1.82-.38 2.76-.38.94 0 1.88.13 2.76.38 2.1-1.45 3.02-1.15 3.02-1.15.6 1.55.22 2.7.11 2.98.7.78 1.12 1.78 1.12 3.01 0 4.33-2.58 5.28-5.05 5.56.4.35.76 1.05.76 2.12 0 1.53-.02 2.76-.02 3.14 0 .3.2.65.76.54 4.38-1.53 7.54-5.86 7.54-10.97C23.25 5.6 18.27.5 12 .5Z"/>
+            </svg>
+          </span>
+          GitHub
+        </a>
+      </div>
+
+      <div class="section">
+        <strong>合作说明：</strong>
+        先沟通需求 → 评估周期与费用 → 明确交付范围 → 开始执行。<br/>
+        如需更快响应，请直接 Telegram 联系。
+      </div>
+
+      <div class="footer">
+        <span>© <span id="y"></span> 浪漫</span>
+        <span><a href="https://t.me/ovo216" target="_blank" rel="noopener">@ovo216</a></span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 年份
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // 简单粒子背景（轻量）
+    const c = document.getElementById("particles");
+    const ctx = c.getContext("2d");
+    let w, h, dpr;
+    const dots = [];
+    const N = 70;
+
+    function resize(){
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.width = Math.floor(innerWidth * dpr);
+      h = c.height
